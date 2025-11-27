@@ -36,6 +36,14 @@ jobs:
             node-version: 20
         - name: Install dependencies
           run: npm install
+        - name: Sign with web-ext
+          run: |
+            npx web-ext sign \
+              --api-key ${{ secrets.AMO_JWT_ISSUER }} \
+              --api-secret ${{ secrets.AMO_JWT_SECRET }} \
+              --channel unlisted \
+              --source-dir ./build \
+              --artifacts-dir ./signed
         - name: Package app (pack:zip)
           run: npm run pack:zip
         - name: Upload ZIP (pack:zip)
